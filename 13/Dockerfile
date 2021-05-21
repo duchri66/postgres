@@ -1,6 +1,8 @@
 # vim:set ft=dockerfile:
 FROM debian:buster-slim
 
+ENV  http_proxy http://10.249.120.90:8080
+ENV  https_proxy http://10.249.120.90:8080
 RUN set -ex; \
 	if ! command -v gpg > /dev/null; then \
 		apt-get update; \
@@ -182,7 +184,7 @@ ENV PGDATA /var/lib/postgresql/data
 RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PGDATA"
 VOLUME /var/lib/postgresql/data
 
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY 13/docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
 
